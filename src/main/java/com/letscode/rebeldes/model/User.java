@@ -1,12 +1,14 @@
 package com.letscode.rebeldes.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.UUID;
+import java.util.Set;
 
 
 @Entity
@@ -19,31 +21,28 @@ import java.util.UUID;
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @NotNull(message="id must be provided!")
+  @NotNull(message = "id must be provided!")
   private Long id;
-  @NotNull(message="Name must be provided!")
+  @NotNull(message = "Name must be provided!")
   private String nome;
-  @NotNull(message="Age must be provided!") @Min(0)
+  @NotNull(message = "Age must be provided!")
+  @Min(0)
   private int idade;
-//  private int numberOfReports;
-  @NotNull(message="Sex must be provided!")
+  //  private int numberOfReports;
+  @NotNull(message = "Sex must be provided!")
   private String genero;
+  @CreationTimestamp
   private Date createdAt;
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "locationid")
-  @NotNull(message = "Location must be provided!")
-  private Location location;
-  @Column(name ="istraitor")
-  private boolean isTraitor;
-  @Column(name="reportcount")
+  private boolean traitor;
+  @Column(name = "reportcount")
   private int reportCount;
 
+  @Embedded
+  @Valid()
+  private Item inventory;
 
-  @PrePersist
-  private void preSave() {
-    this.reportCount = 0;
-    createdAt = new Date();
-  }
-
+  @Embedded
+  @Valid()
+  private Location location;
 
 }

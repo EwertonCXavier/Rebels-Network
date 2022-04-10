@@ -1,8 +1,10 @@
 package com.letscode.rebeldes.controller;
 
 import com.letscode.rebeldes.converter.UserMapper;
+import com.letscode.rebeldes.dto.Trade;
 import com.letscode.rebeldes.dto.UserCreateDTO;
 import com.letscode.rebeldes.dto.UserDTO;
+import com.letscode.rebeldes.model.Item;
 import com.letscode.rebeldes.model.Location;
 import com.letscode.rebeldes.model.User;
 import com.letscode.rebeldes.service.UserService;
@@ -55,6 +57,11 @@ public class UserController {
   @PatchMapping("/{id}/report")
   public ResponseEntity<User> updateReportCount(@PathVariable Long id) {
     return ResponseEntity.ok(userService.reportUser(id));
+  }
+
+  @PatchMapping("/trade/{idOne}/{idTwo}")
+  public ResponseEntity<String> newTradeUsersItems(@PathVariable Long idOne, @PathVariable Long idTwo, @RequestBody Trade tradeItems) {
+    return ResponseEntity.ok(userService.tradeUsersItems(idOne, idTwo, tradeItems));
   }
 
 

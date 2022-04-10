@@ -1,50 +1,36 @@
 package com.letscode.rebeldes.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
  * TODO
- *
+ * <p>
  * Pendente:
-
+ * <p>
  * 1. Inserir a relação entre as entidades Rebelde e Localização
-
  **/
 
-@Getter
-@Setter
-@Entity
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "location")
+@Data
+@Embeddable
 public class Location {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  // O nome definido aqui deve ser o mesmo da entidade User
-  @Column(name = "locationid")
-  private Long id;
-  @NotNull
-  private String nome;
-  @NotNull
+  @NotNull(message = "location must be provided! - Null")
+  @NotBlank(message = "location must be provided! - Blank")
+  @NotEmpty(message = "locationName must be provided! - Empty")
+  private String locationName;
+  @NotNull(message = "latitude must be provided! - Null")
+  @NotBlank(message = "latitude must be provided! - Blank")
+  @NotEmpty(message = "latitude must be provided! - Empty")
   private String latitude;
-  @NotNull
+  @NotNull(message = "longitude must be provided! - Null")
+  @NotBlank(message = "longitude must be provided! - Blank")
+  @NotEmpty(message = "longitude must be provided! - Empty")
   private String longitude;
-  private Date createdAt;
-  private Date updatedAt;
-
-  @PrePersist
-  public void preSave() {
-    updatedAt = new Date();
-    createdAt = new Date();
-  }
-
-  @PreUpdate
-  public void preUpdate() {
-    updatedAt = new Date();
-  }
 }
